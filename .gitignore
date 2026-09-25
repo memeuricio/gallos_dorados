@@ -5,3 +5,8 @@ dist-ssr
 *.local
 .DS_Store
 capturas
+
+# El proyecto usa pnpm: no deben aparecer locks de otros gestores
+package-lock.json
+yarn.lock
+pnpm-debug.log*

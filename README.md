@@ -4,7 +4,8 @@ Sitio de una sola página para la banda chilena de **nueva ranchera chilena** Ga
 calendario de disponibilidad, selección de bloque horario y asistente de reserva de 4 pasos que
 cotiza al instante.
 
-Hecho con **Vite + React (JavaScript) + Tailwind CSS v4 + Three.js** (React Three Fiber / Drei).
+Hecho con **Vite + React (JavaScript) + Tailwind CSS v4 + Three.js**. Se instala y ejecuta con
+**pnpm** (el proyecto trae `pnpm-lock.yaml` y declara la versión en `packageManager`).
 
 > Si eres un agente de IA trabajando en este repo, parte por **`AGENTS.md`**: ahí está el contexto
 > completo (datos reales del grupo, pendientes, convenciones y cómo verificar).
@@ -13,14 +14,21 @@ Hecho con **Vite + React (JavaScript) + Tailwind CSS v4 + Three.js** (React Thre
 
 ## 🚀 Cómo ejecutarlo
 
+Requisitos: **Node 20+** y **pnpm**. Si no tienes pnpm, se instala con
+`corepack enable pnpm` (Corepack viene con Node) o `npm i -g pnpm`.
+
 ```bash
-npm install      # dependencias
-npm run dev      # desarrollo -> http://localhost:5173
-npm run build    # compilar a dist/
-npm run preview  # probar la compilación
-npm run smoke    # chequeo rápido de render (Node)
-npm run verify   # test en Chrome headless del flujo de reserva + capturas en capturas/
+pnpm install     # dependencias
+pnpm dev         # desarrollo -> http://localhost:5173
+pnpm build       # compilar a dist/
+pnpm preview     # probar la compilación
+pnpm smoke       # chequeo rápido de render (Node)
+pnpm verify      # test en Chrome headless del flujo de reserva + capturas en capturas/
 ```
+
+> **Despliegue:** en el servidor basta con `pnpm install --frozen-lockfile && pnpm build` y servir
+> `dist/`. Si el hosting no permite enlaces simbólicos (algunos paneles compartidos), crear un
+> `.npmrc` con `node-linker=hoisted` y volver a instalar.
 
 ---
 
@@ -28,10 +36,10 @@ npm run verify   # test en Chrome headless del flujo de reserva + capturas en ca
 
 | Sección | Detalle |
 | --- | --- |
-| Hero + escena 3D | Guitarra, sombrero y maracas hechos con geometría procedural. Se **arrastra para girar**, tiene parallax con el mouse y reacciona al clic. |
+| Hero + escena 3D | Una guitarra acústica modelada con geometría procedural (silueta extruida + veta *sunburst* generada en canvas). Gira sola, lento, y el render se pausa cuando sale de pantalla. |
 | El grupo | Historia real (fundado el 11/02/2014 en Maipú), línea de tiempo con los hitos, discografía “Parte 1” y “Parte 2” y los 5 integrantes con foto. |
 | Formatos de show | 8 formatos: serenata/mañanitas, cumpleaños, matrimonio, show bailable con huira, fondas, eventos municipales, empresas y homenajes. |
-| Formación | Selector de 3 a 12 músicos con **escena 3D que se rearma**: las figuras caminan a su nueva posición. |
+| Formación | Selector de 3 a 12 músicos con **escenario ilustrado en SVG** que se rearma: cada músico aparece con su instrumento según el rol. |
 | Agenda | Calendario de 90 días con estado por bloque (disponible / últimos cupos / ocupado), lunes de descanso, feriados y recargos por horario. |
 | Reserva | 4 pasos: **músicos → lugar (comuna) → show + extras → datos y pago**, con cotización en vivo en la barra lateral y barra fija en móvil. |
 | Confirmación | Código de reserva, descarga `.ics`, envío por WhatsApp y guardado en `localStorage`. |
@@ -79,7 +87,8 @@ pesados quedaron en `assets/originales/` por si se necesitan recortes nuevos.
 src/
 ├─ components/
 │  ├─ booking/     Calendario, bloques, asistente, pasos, resumen, confirmación
-│  ├─ three/       Escenas 3D (hero y formación)
+│  ├─ three/       GuitarraHero.jsx (escena three.js del hero)
+│  ├─ EscenarioSVG.jsx  Escenario ilustrado de la sección Formación
 │  └─ ...          Navbar, Hero, Marquee, Band, ShowTypes, Musicians, Gallery, Presentaciones, FAQ, Footer
 ├─ config/site.js  Datos de la marca
 ├─ context/        Estado de la reserva y toasts
@@ -87,5 +96,5 @@ src/
 ├─ hooks/useUI.js  Reveal, contadores, tilt, sección activa, scroll, reduced-motion
 └─ lib/            Fechas, formato CLP, cotización, localStorage
 scripts/           smoke-ssr.jsx (render en Node) y verificar-navegador.mjs (test E2E)
-capturas/          Capturas del test E2E (se regeneran con npm run verify)
+capturas/          Capturas del test E2E (se regeneran con pnpm verify)
 ```

@@ -20,25 +20,27 @@ selección de bloques horarios y un asistente de reserva de 4 pasos que cotiza a
 Vite 8 · React 19 (JavaScript, sin TypeScript) · Tailwind CSS v4 (`@tailwindcss/vite`) ·
 Three.js **puro** (sin `@react-three/fiber` ni `drei`, que se sacaron para aliviar el bundle).
 Tipografías: **Fraunces** (títulos, `font-display`) + **Outfit** (texto, `font-sans`).
+**Gestor de paquetes: pnpm** (no npm). El repo trae `pnpm-lock.yaml` y `packageManager` en
+`package.json`; hay que mantener los dos (borrar `package-lock.json` si aparece).
 
 ```bash
-npm install
-npm run dev       # servidor de desarrollo -> http://localhost:5173
-npm run build     # compila a dist/
-npm run preview   # sirve la compilación (ojo: si el puerto está ocupado, usa otro)
-npm run smoke     # render SSR en Node: detecta imports/props rotos sin navegador
-npm run verify    # Chrome headless: recorre la reserva completa, revisa errores de consola y guarda capturas/
+pnpm install      # dependencias
+pnpm dev          # servidor de desarrollo -> http://localhost:5173
+pnpm build        # compila a dist/
+pnpm preview      # sirve la compilación (ojo: si el puerto está ocupado, usa otro)
+pnpm smoke        # render SSR en Node: detecta imports/props rotos sin navegador
+pnpm verify       # Chrome headless: recorre la reserva completa, revisa errores de consola y guarda capturas/
 ```
 
 **Flujo de verificación obligatorio antes de dar algo por terminado:**
 
-1. `npm run build` (debe compilar).
-2. `npm run smoke` (debe imprimir `OK: la app renderiza sin errores`).
-3. `npm run verify` con el servidor levantado → debe terminar en
+1. `pnpm build` (debe compilar).
+2. `pnpm smoke` (debe imprimir `OK: la app renderiza sin errores`).
+3. `pnpm verify` con el servidor levantado → debe terminar en
    `✅ todas las comprobaciones pasaron` y `sin errores` en consola.
-   - En Windows, `npm run verify` con el build de producción:
-     `npx vite preview --port 4180 --strictPort` y luego
-     `$env:URL_WEB='http://localhost:4180/'; npm run verify`.
+   - En Windows, `pnpm verify` con el build de producción:
+     `pnpm exec vite preview --port 4180 --strictPort` y luego
+     `$env:URL_WEB='http://localhost:4180/'; pnpm verify`.
    - Variables: `URL_WEB`, `SALIDA` (carpeta de capturas), `CHROME`, `PUERTO_CDP`.
 4. Revisar visualmente 2-3 capturas de `capturas/` con la herramienta `read` (imágenes).
 
@@ -47,9 +49,11 @@ npm run verify    # Chrome headless: recorre la reserva completa, revisa errores
 - PowerShell 5.1 **no** soporta `&&`; usar `;` o comandos separados.
 - Con `vite preview`, si el puerto está ocupado Vite cambia de puerto silenciosamente
   (`--strictPort` para evitarlo).
-- Si se corre `npm run verify` contra el **dev server** mientras se editan archivos, Vite
+- Si se corre `pnpm verify` contra el **dev server** mientras se editan archivos, Vite
   recarga la página (HMR) y el test falla. Por eso el script inyecta helpers con
   `Page.addScriptToEvaluateOnNewDocument` y conviene verificar contra `preview`.
+- En el servidor: `pnpm install --frozen-lockfile && pnpm build` y servir `dist/`. Si el
+  hosting no permite enlaces simbólicos, un `.npmrc` con `node-linker=hoisted` lo resuelve.
 - El navegador headless necesita `--enable-unsafe-swiftshader` para renderizar WebGL
   (Three.js) sin GPU.
 - **Chrome no arranca si su perfil vive dentro de una carpeta sincronizada** (el
@@ -86,8 +90,8 @@ src/
    ├─ ui.jsx               Placeholder, Reveal, SectionTitle, Badge, Stars, Equalizer
    └─ Navbar, Hero, Marquee, Band, ShowTypes, Musicians, Gallery, Presentaciones, FAQ, Footer, FloatingActions, Modal
 scripts/
-├─ smoke-ssr.jsx           render en Node (npm run smoke)
-└─ verificar-navegador.mjs test E2E con Chrome headless (npm run verify)
+├─ smoke-ssr.jsx           render en Node (pnpm smoke)
+└─ verificar-navegador.mjs test E2E con Chrome headless (pnpm verify)
 ```
 
 ### Orden de las secciones (App.jsx)
@@ -182,7 +186,7 @@ necesitan para recortes nuevos.
 - `public/favicon.png` se generó desde el logo (el `favicon.svg` viejo ya no se usa).
 - Los iconos de la UI son SVG propios en `src/components/icons.jsx` (no vienen de Wix).
 - Herramienta de optimización usada: `sharp` (se instaló en un directorio temporal, **no** es
-  dependencia del proyecto). Si hay que volver a optimizar, `npm i sharp` en un tmp y repetir.
+  dependencia del proyecto). Si hay que volver a optimizar, `pnpm add sharp` en un tmp y repetir.
 
 ## 7. Estado y pendientes
 

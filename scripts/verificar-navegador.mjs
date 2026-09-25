@@ -8,7 +8,7 @@
         de consola.
      4. Guarda capturas de pantalla en la carpeta `capturas/`.
 
-   Requisitos: el servidor levantado (npm run dev) y Chrome instalado.
+   Requisitos: el servidor levantado (pnpm dev) y Chrome instalado.
    Uso:
      node scripts/verificar-navegador.mjs
      URL_WEB=http://localhost:4173/ node scripts/verificar-navegador.mjs
