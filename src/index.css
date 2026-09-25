@@ -306,12 +306,19 @@
     focus-visible:ring-offset-crema-50 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40;
 }
 
+/* Aparición al hacer scroll.
+   Ojo: la transición vive en `reveal-base`, que está SIEMPRE presente. Si se
+   declarara solo en el estado oculto, el navegador tomaría la transición del
+   estado nuevo (sin transición) y el cambio sería instantáneo: el "pop". */
+@utility reveal-base {
+  transition:
+    opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
 @utility reveal-hidden {
   opacity: 0;
-  transform: translateY(26px);
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(22px);
 }
 
 @utility reveal-shown {

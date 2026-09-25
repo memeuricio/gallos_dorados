@@ -36,7 +36,7 @@ export function Reveal({ children, delay = 0, className = '', as: Tag = 'div', .
   return (
     <Tag
       ref={ref}
-      className={`${visible ? 'reveal-shown' : 'reveal-hidden'} ${className}`}
+      className={`reveal-base ${visible ? 'reveal-shown' : 'reveal-hidden'} ${className}`}
       {...rest}
     >
       {children}
