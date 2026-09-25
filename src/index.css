@@ -1,0 +1,335 @@
+@import 'tailwindcss';
+
+/* =========================================================================
+   Design tokens  (Tailwind v4 -> @theme genera utilidades automáticamente)
+   Paleta: papel crema + tinta café + oro + vino y agave de acento.
+   El sitio es claro: los fondos viven en --color-crema-*, el texto en
+   --color-tinta-* (números altos = más oscuro).
+   ========================================================================= */
+@theme {
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', ui-serif, Georgia, 'Times New Roman', serif;
+
+  /* Fondos: de papel casi blanco a un arena tostado */
+  --color-crema-50: #fffaf3;
+  --color-crema-100: #fdf4e7;
+  --color-crema-200: #f6e8d4;
+  --color-crema-300: #ecd8ba;
+  --color-crema-400: #dcc09a;
+  --color-crema-500: #c8a67c;
+  --color-crema-600: #a98459;
+
+  /* Texto: de un gris cálido a café casi negro */
+  --color-tinta-300: #b3a08d;
+  --color-tinta-400: #7d6753;
+  --color-tinta-500: #5f4a39;
+  --color-tinta-600: #4a382b;
+  --color-tinta-700: #3a2b20;
+  --color-tinta-800: #2a1e15;
+  --color-tinta-900: #1c130d;
+
+  /* Oro: el dorado del logo, oscurecido lo justo para leer sobre crema */
+  --color-gold-100: #fff6dc;
+  --color-gold-200: #ffe9ab;
+  --color-gold-300: #ffd977;
+  --color-gold-400: #eab13a;
+  --color-gold-500: #c1861a;
+  --color-gold-600: #9a6a10;
+  --color-gold-700: #7a530b;
+
+  /* Agave (verde de "disponible") */
+  --color-agave-300: #7ff0c0;
+  --color-agave-400: #3ddc97;
+  --color-agave-500: #12b981;
+  --color-agave-600: #0b8f65;
+  --color-agave-700: #0a6e50;
+
+  /* Vino (rojo de fonda) */
+  --color-crimson-400: #d4526a;
+  --color-crimson-500: #a92438;
+  --color-crimson-600: #8a1b2c;
+  --color-crimson-700: #6b1322;
+
+  /* Tierra: bandas oscuras cálidas (marquesina, pie de página) */
+  --color-tierra-700: #4a2e1d;
+  --color-tierra-800: #352115;
+  --color-tierra-900: #26170e;
+  --color-tierra-950: #190f09;
+
+  --shadow-soft: 0 10px 30px -22px rgb(90 60 20 / 0.55);
+  --shadow-card: 0 22px 45px -30px rgb(90 60 20 / 0.45), 0 2px 6px -4px rgb(90 60 20 / 0.18);
+  --shadow-lifted: 0 30px 60px -28px rgb(90 60 20 / 0.5);
+
+  --animate-marquee: marquee 32s linear infinite;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-float-slow: float 11s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.8s linear infinite;
+  --animate-eq: eq 1.1s ease-in-out infinite;
+  --animate-pulse-ring: pulseRing 2.6s ease-out infinite;
+  --animate-spin-slow: spin 22s linear infinite;
+  --animate-pop: pop 0.45s cubic-bezier(0.22, 1.4, 0.36, 1) both;
+  --animate-slide-up: slideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade: fade 0.4s ease both;
+  --animate-confetti: confetti 3.2s ease-in forwards;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+@keyframes eq {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+@keyframes pulseRing {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes pop {
+  from {
+    transform: scale(0.9) translateY(8px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes slideUp {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes confetti {
+  0% {
+    transform: translateY(-10vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(720deg);
+    opacity: 0.9;
+  }
+}
+
+/* =========================================================================
+   Base
+   ========================================================================= */
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  /* Tailwind v4 usa currentColor por defecto en los bordes: acá lo dejamos
+     siempre en el tono arena de la paleta. */
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-crema-200);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-crema-50 text-tinta-800 font-sans antialiased;
+  }
+
+  /* Halos cálidos fijos: un solo layer compuesto, sin repintar al hacer scroll */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      radial-gradient(900px 520px at 10% -12%, rgb(234 177 58 / 0.16), transparent 62%),
+      radial-gradient(760px 520px at 92% -4%, rgb(169 36 56 / 0.1), transparent 58%),
+      radial-gradient(800px 600px at 55% 108%, rgb(18 185 129 / 0.08), transparent 60%);
+  }
+
+  ::selection {
+    background: var(--color-gold-300);
+    color: var(--color-tinta-900);
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display text-tinta-900 tracking-tight;
+    font-variation-settings: 'SOFT' 40;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-crema-200);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--color-gold-500), var(--color-gold-700));
+    border-radius: 999px;
+    border: 2px solid var(--color-crema-200);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* =========================================================================
+   Componentes reutilizables
+   (btn y glass viven acá para poder reutilizarlos con @apply)
+   ========================================================================= */
+@layer components {
+  .card {
+    @apply rounded-3xl border border-crema-200 bg-white shadow-[var(--shadow-card)];
+  }
+
+  .btn-gold {
+    @apply btn border border-gold-500/40 bg-gradient-to-b from-gold-300 to-gold-400 text-tinta-900
+      shadow-[0_12px_28px_-14px_rgb(193_134_26/0.75)] hover:from-gold-200 hover:to-gold-400
+      hover:shadow-[0_16px_34px_-14px_rgb(193_134_26/0.9)] active:scale-[0.97];
+  }
+  .btn-ghost {
+    @apply btn border border-crema-300 bg-white/80 text-tinta-700 hover:border-gold-500/50
+      hover:bg-crema-100 active:scale-[0.97];
+  }
+  .btn-dark {
+    @apply btn bg-tinta-900 text-crema-100 hover:bg-tinta-800 active:scale-[0.97];
+  }
+  .btn-vino {
+    @apply btn border border-crimson-700/40 bg-gradient-to-b from-crimson-500 to-crimson-600 text-white
+      shadow-[0_12px_28px_-14px_rgb(138_27_44/0.75)] hover:from-crimson-400 hover:to-crimson-600 active:scale-[0.97];
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-crema-300 bg-white/80 px-3 py-1
+      text-xs font-medium text-tinta-500;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-crema-300 bg-white px-4 py-3 text-sm text-tinta-800
+      placeholder:text-tinta-300 transition focus:border-gold-500/70 focus:ring-2 focus:ring-gold-500/20
+      focus:outline-none;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-semibold tracking-wide text-tinta-500 uppercase;
+  }
+
+  .section {
+    @apply relative mx-auto w-full max-w-7xl px-5 py-20 sm:px-8 lg:py-28;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gradient-to-br from-gold-500 via-crimson-500 to-gold-600 bg-clip-text text-transparent;
+  }
+
+  /* Placeholder de imágenes (mientras llegan los archivos reales) */
+  .placeholder-media {
+    background-image:
+      linear-gradient(135deg, rgb(234 177 58 / 0.16), transparent 45%),
+      repeating-linear-gradient(45deg, rgb(120 84 32 / 0.07) 0 14px, transparent 14px 28px);
+  }
+}
+
+/* =========================================================================
+   Utilidades propias (registradas como @utility para poder usar @apply)
+   ========================================================================= */
+@utility glass {
+  @apply border border-crema-200 bg-white/85;
+}
+
+@utility btn {
+  @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold
+    transition-all duration-300 select-none focus-visible:ring-2 focus-visible:ring-gold-600 focus-visible:ring-offset-2
+    focus-visible:ring-offset-crema-50 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-40;
+}
+
+@utility reveal-hidden {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@utility reveal-shown {
+  opacity: 1;
+  transform: none;
+}
+
+@utility tilt-card {
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
+
+@utility scrollbar-thin-gold {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gold-500) transparent;
+}
+
+@utility noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' fill='%238a6535' opacity='0.5'/%3E%3C/svg%3E");
+}
